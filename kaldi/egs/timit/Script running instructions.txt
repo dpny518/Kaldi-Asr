@@ -1,0 +1,32 @@
+1. First, download the TIMIT data set and put it in your own directory, for example:
+
+/kaldi/egs/timit/s5/data/timit
+
+2. Second, The content of the modified script( run.sh ) is as follows:
+
+#timit=/export/corpora5/LDC/LDC93S1/timit/TIMIT # @JHU
+timit=~/kaldi/egs/timit/s5/data/timit # @BUT   *********
+
+local/timit_data_prep.sh $timit || exit 1
+
+local/timit_prepare_dict.sh
+
+3. Next,The content of the modified script( cmd.sh ) is as follows:
+
+# export train_cmd="queue.pl --mem 4G"
+# export decode_cmd="queue.pl --mem 4G"
+# the use of cuda_cmd is deprecated, used only in 'nnet1',
+# export cuda_cmd="queue.pl --gpu 1"
+
+#if [ "$(hostname -d)" == "fit.vutbr.cz" ]; then
+# queue_conf=$HOME/queue_conf/default.conf # see example /homes/kazi/iveselyk/queue_conf/default.conf,
+  export train_cmd=run.pl
+  export decode_cmd=run.pl
+  export cuda_cmd=run.pl
+  export  mkgraph=run.pl
+#fi
+
+4.Finally, run the command  ./run.sh
+
+
+

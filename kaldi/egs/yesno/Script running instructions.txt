@@ -1,1 +1,1 @@
-Execute the command  ./run.sh
+run the command  ./run.sh
