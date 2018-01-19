@@ -1,0 +1,62 @@
+swagger: "2.0"
+info:
+  description: "Goodness of Pronunciation"
+  version: "1.0.0"
+  title: "FLUENCY"
+  termsOfService: "http://www.langlib.com/"
+  contact:
+    email: "zhangweiyu@langlib.com"
+consumes:
+  - application/json
+produces:
+  - application/json
+#security:
+  # enable OAuth protection for all REST endpoints
+  # (only active if the TOKENINFO_URL environment variable is set)
+#  - oauth2: [uid]
+paths:
+  /fluency:
+    post:
+      tags:
+        - Speech
+      operationId: app.fluecnyScore
+      summary: 得到语音评测结果
+      consumes:
+        - application/json
+      parameters:
+      - name: audio_info
+        in: body
+        description: 用户语音URL, 标准语音路径URL, 标准文本
+        schema:
+          type: object
+          properties:
+            wav_in_file_path:
+              type: string
+            compare_sentence:
+              type: string
+      responses:
+        '200':
+          description: 成功，返回语音识别的分数和语速的分数
+          schema:
+            type: object
+            properties:
+              err_no:
+                type: integer
+                description: 错误码，为0
+              recognizer_score:
+                type: integer
+                description: 语音识别的分数, 0-100.
+              speed_score:
+                type: integer
+                description: 语速的分数, -1为慢, 0为正常, 1为快
+        default:
+          description: 失败，返回错误信息
+          schema:
+            type: object
+            properties:
+              err_no:
+                type: integer
+                description: 错误码, 不为0的整数
+              err_msg:
+                type: string
+                description: 错误信息
