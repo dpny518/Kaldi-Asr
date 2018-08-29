@@ -1,0 +1,130 @@
+swagger: "2.0"
+info:
+  description: "Goodness of Pronunciation"
+  version: "1.0.0"
+  title: "ASR-GOP"
+  termsOfService: "http://www.langlib.com/"
+  contact:
+    email: "dinghaojie@langlib.com"
+consumes:
+  - application/json
+produces:
+  - application/json
+
+#security:
+  # enable OAuth protection for all REST endpoints
+  # (only active if the TOKENINFO_URL environment variable is set)
+#  - oauth2: [uid]
+paths:
+  /compute:
+    post:
+      tags: [structure]
+      operationId: app.compute
+      summary: 发音质量评估
+      description: 根据输入的语音段，计算基于音素的发音质量评估
+      consumes:
+        - application/json
+      parameters:
+        - name: para_info
+          in: body
+          description: 测试
+          schema:
+            type: object
+            properties:
+              wav-in-filename:
+                type: string
+                description: wav文件所在位置
+              reference-text:
+                type: string
+                description: 参考文本
+      responses:
+        200:
+          description: 发音质量分数
+          schema:
+            type: object
+            properties:
+              pause_score:
+                type: string
+                description: pause score
+              stress_score:
+                type: string
+                description: stress score
+              pronunciation_score:
+                type: string
+                description: pronunciation score
+  /ComputeTest:
+    post:
+      tags: [local]
+      operationId: app.ComputeTest
+      summary: 发音质量评估
+      description: 根据输入的语音段，计算基于音素的发音质量评估
+      consumes:
+        - application/json
+      parameters:
+        - name: para_info
+          in: body
+          description: 测试
+          schema:
+            type: object
+            properties:
+              wav_filename:
+                type: string
+                description: wav文件所在位置
+              reference_text:
+                type: string
+                description: 参考文本
+      responses:
+        200:
+          description: 发音质量分数
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: 接口结果信息
+              decoded:
+                type: string
+                description: 解码结果
+  /GetSpeechScore:
+    post:
+      tags: [structure]
+      operationId: app.PracticalCompute
+      summary: 发音质量评估
+      description: 根据输入的语音段，计算基于音素的发音质量评估
+      consumes:
+        - application/json
+      parameters:
+        - name: ParaInfo
+          in: body
+          description: 测试
+          schema:
+            type: object
+            properties:
+              wav_url:
+                type: string
+                description: wav文件所在位置
+              wav_text:
+                type: string
+                description: 参考文本
+              wav_time:
+                type: integer
+                description: 音频时长
+      responses:
+        200:
+          description: 发音质量分数
+          schema:
+            type: object
+            properties:
+              msg:
+                type: string
+                description: 接口结果信息
+              decoded:
+                type: string
+                description: 解码结果
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    flow: implicit
+    authorizationUrl: https://example.com/oauth2/dialog
+    scopes:
+      uid: Unique identifier of the user accessing the service.

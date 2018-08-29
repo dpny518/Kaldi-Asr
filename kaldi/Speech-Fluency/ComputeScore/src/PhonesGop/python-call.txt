@@ -1,0 +1,15 @@
+
+#include "compute-gop.h"
+#include <boost/python.hpp>
+
+using namespace boost::python;
+using namespace gop;
+
+BOOST_PYTHON_MODULE(libgop)
+{
+	class_<ComputeGop>("ComputeGop")
+	.def("Compute", &ComputeGop::ComputeGopScore)
+	.def("GetJsonStrResult", &ComputeGop::GetJsonStrResult)
+	//.def_readonly("rs", &ComputeGop::rs)
+	;
+}

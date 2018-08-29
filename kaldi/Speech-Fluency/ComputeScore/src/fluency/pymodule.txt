@@ -1,0 +1,24 @@
+// this is in your boost/lib dir
+#include "base/kaldi-common.h"
+#include "util/common-utils.h"
+#include "fluency/score.h"
+#include <string>
+#include <boost/python.hpp>
+
+using namespace kaldi;
+using namespace boost::python;
+using namespace fluency;
+
+BOOST_PYTHON_MODULE(fluency)  // foo will be the name you import in python
+{
+   //boost::python::init_and_export_converters();
+
+    class_<fluency::Score>("Score",  init<>())                            //如果默认构造函数没有参数，可以省略
+        .def("GetSpeechFluencyJson", &Score::GetSpeechFluencyJson)                            //成员函数
+        .def("GetDecodeWords",&Score::GetDecodeWords)
+    ;
+
+  //  class_<kaldi::Score>("Score")
+  //  .def("CalculateFluencyScore",&Score::CalculateFluencyScore)
+  //   ;
+}
